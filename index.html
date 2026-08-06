@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Milagros Cañete — Desarrolladora Full Stack</title>
+<meta name="description" content="Portfolio de Milagros Cañete, desarrolladora Full Stack orientada al frontend. Proyectos, stack, experiencia y contacto.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     TOKENS DE DISEÑO — cambiá acá los colores de toda la página
+     ============================================================ */
+  :root {
+    --bg:      #EFE7DA;   /* arena */
+    --surface: #F9F3E9;   /* card, más claro */
+    --ink:     #2E2620;   /* marrón espresso */
+    --muted:   #7A6E5C;   /* taupe */
+    --line:    #DED2BF;   /* línea cálida */
+    --accent:  #B85C38;   /* terracota */
+    --accent-soft: #EADDCD;
+
+    --font-display: "Space Grotesk", system-ui, sans-serif;
+    --font-body:    "Inter", system-ui, sans-serif;
+    --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+
+    --maxw: 1080px;
+    --radius: 14px;
+  }
+
+  html[data-theme="dark"] {
+    --bg:      #201B15;   /* marrón oscuro */
+    --surface: #2A241C;
+    --ink:     #EFE7DA;   /* crema cálida */
+    --muted:   #A79A85;
+    --line:    #3A3128;
+    --accent:  #DD8A5A;   /* terracota claro */
+    --accent-soft: #362619;
+  }
+
+  /* ============================================================ BASE */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: var(--font-body); line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background .3s ease, color .3s ease;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+  .eyebrow {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em;
+    color: var(--accent); text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 10px; margin-bottom: 22px;
+  }
+  .eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--accent); opacity: .5; }
+
+  section { padding: 100px 0; }
+
+  h2.section-title {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: -0.02em;
+    line-height: 1.1; margin-bottom: 42px;
+  }
+
+  /* ============================================================ NAV */
+  header.nav {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: saturate(160%) blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 66px; }
+  .brand { font-family: var(--font-mono); font-weight: 500; font-size: 15px; letter-spacing: -0.01em; }
+  .brand .dot { color: var(--accent); }
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .nav-links a { font-size: 14px; color: var(--muted); font-weight: 500; transition: color .2s ease; }
+  .nav-links a:hover { color: var(--ink); }
+  .theme-toggle {
+    background: none; border: 1px solid var(--line); color: var(--ink);
+    width: 38px; height: 38px; border-radius: 10px; cursor: pointer;
+    display: grid; place-items: center; font-size: 15px;
+    transition: border-color .2s ease;
+  }
+  .theme-toggle:hover { border-color: var(--accent); }
+  .menu-btn { display: none; background: none; border: 0; color: var(--ink); cursor: pointer; font-size: 22px; }
+
+  /* ============================================================ HERO */
+  .hero { padding: 120px 0 90px; }
+  .status {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-family: var(--font-mono); font-size: 12.5px; color: var(--muted);
+    background: var(--surface); border: 1px solid var(--line);
+    padding: 7px 14px; border-radius: 999px; margin-bottom: 30px;
+  }
+  .status .ping { position: relative; width: 8px; height: 8px; }
+  .status .ping span { position: absolute; inset: 0; border-radius: 50%; background: #7D9350; }
+  .status .ping span.wave { animation: ping 1.8s cubic-bezier(0,0,.2,1) infinite; opacity: .6; }
+  @keyframes ping { 75%, 100% { transform: scale(2.4); opacity: 0; } }
+
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(2.6rem, 8vw, 5rem); line-height: 1.02;
+    letter-spacing: -0.035em; margin-bottom: 26px;
+  }
+  .hero h1 .accent { color: var(--accent); }
+  .hero .lead { font-size: clamp(1.05rem, 2.2vw, 1.3rem); color: var(--muted); max-width: 580px; margin-bottom: 40px; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 600; font-size: 15px; padding: 13px 22px; border-radius: 11px;
+    transition: transform .15s ease, border-color .2s ease;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-ghost { border: 1px solid var(--line); color: var(--ink); }
+  .btn-ghost:hover { border-color: var(--accent); }
+
+  /* ============================================================ SOBRE MÍ */
+  .about-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 60px; align-items: start; }
+  .about-text p { color: var(--muted); font-size: 1.05rem; margin-bottom: 18px; }
+  .about-text p strong { color: var(--ink); font-weight: 600; }
+  .facts { border-top: 1px solid var(--line); }
+  .fact {
+    display: flex; justify-content: space-between; gap: 16px;
+    padding: 15px 0; border-bottom: 1px solid var(--line); font-size: 14px;
+  }
+  .fact .k { font-family: var(--font-mono); color: var(--muted); }
+  .fact .v { font-weight: 500; text-align: right; }
+
+  /* ============================================================ SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .skill-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; }
+  .skill-card h3 {
+    font-family: var(--font-mono); font-size: 13px; font-weight: 500;
+    color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 18px;
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 9px; }
+  .tag { font-size: 13.5px; font-weight: 500; padding: 6px 12px; border-radius: 8px; background: var(--accent-soft); color: var(--accent); }
+  html[data-theme="dark"] .tag { color: var(--ink); }
+
+  /* ============================================================ PROYECTOS */
+  .projects { display: grid; gap: 22px; }
+  .project {
+    display: grid; grid-template-columns: 60px 1fr auto; gap: 26px; align-items: start;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 30px; transition: border-color .2s ease, transform .2s ease;
+  }
+  .project:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .project .num { font-family: var(--font-mono); color: var(--muted); font-size: 14px; padding-top: 4px; }
+  .project h3 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 10px; }
+  .project p { color: var(--muted); margin-bottom: 16px; max-width: 62ch; }
+  .project .stack { font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 16px; }
+  .project-links { display: flex; flex-direction: column; gap: 10px; text-align: right; white-space: nowrap; }
+  .project-links a { font-size: 14px; font-weight: 500; color: var(--accent); display: inline-flex; align-items: center; gap: 6px; justify-content: flex-end; }
+  .project-links a:hover { text-decoration: underline; }
+
+  /* ============================================================ EXPERIENCIA */
+  .exp-item { border-left: 2px solid var(--line); padding: 4px 0 4px 28px; margin-bottom: 40px; }
+  .exp-item:last-child { margin-bottom: 0; }
+  .exp-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+  .exp-head h3 { font-family: var(--font-display); font-size: 1.25rem; font-weight: 500; }
+  .exp-head .when { font-family: var(--font-mono); font-size: 12.5px; color: var(--accent); }
+  .exp-item .role { font-size: 14.5px; color: var(--muted); margin-bottom: 16px; }
+  .exp-item ul { list-style: none; display: grid; gap: 10px; }
+  .exp-item li { color: var(--muted); font-size: 1rem; padding-left: 20px; position: relative; }
+  .exp-item li::before { content: "▸"; position: absolute; left: 0; color: var(--accent); }
+  .edu { margin-top: 8px; }
+  .edu .exp-item { margin-bottom: 0; }
+
+  /* ============================================================ CONTACTO */
+  .contact { text-align: center; }
+  .contact .section-title { margin-bottom: 20px; }
+  .contact p { color: var(--muted); max-width: 480px; margin: 0 auto 34px; font-size: 1.1rem; }
+  .contact-email {
+    font-family: var(--font-display); font-size: clamp(1.3rem, 5vw, 2.3rem); font-weight: 500;
+    letter-spacing: -0.02em; border-bottom: 2px solid var(--line); padding-bottom: 4px; transition: border-color .2s ease;
+  }
+  .contact-email:hover { border-color: var(--accent); }
+  .socials { display: flex; justify-content: center; flex-wrap: wrap; gap: 26px; margin-top: 40px; }
+  .socials a { font-size: 14px; font-weight: 500; color: var(--muted); transition: color .2s ease; }
+  .socials a:hover { color: var(--accent); }
+
+  /* ============================================================ FOOTER */
+  footer { border-top: 1px solid var(--line); padding: 34px 0; }
+  .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); }
+
+  /* ============================================================ ANIMACIÓN */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .status .ping span.wave { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ============================================================ RESPONSIVE */
+  @media (max-width: 820px) {
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .project { grid-template-columns: 1fr; gap: 16px; padding: 26px; }
+    .project .num { padding-top: 0; }
+    .project-links { flex-direction: row; text-align: left; }
+    .project-links a { justify-content: flex-start; }
+  }
+  @media (max-width: 640px) {
+    section { padding: 72px 0; }
+    .nav-links { display: none; }
+    .nav-links.open {
+      display: flex; position: absolute; top: 66px; left: 0; right: 0;
+      flex-direction: column; gap: 0; background: var(--bg);
+      border-bottom: 1px solid var(--line); padding: 8px 24px 20px;
+    }
+    .nav-links.open a { padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .menu-btn { display: block; }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="#inicio" class="brand">milicanete<span class="dot">.</span>dev</a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#skills">Stack</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#experiencia">Experiencia</a>
+      <a href="#contacto">Contacto</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">◐</button>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Menú">☰</button>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" id="inicio">
+  <div class="wrap">
+    <div class="status reveal">
+      <span class="ping"><span class="wave"></span><span></span></span>
+      Abierta a propuestas laborales
+    </div>
+    <h1 class="reveal">Hola, soy<br><span class="accent">Milagros Cañete</span></h1>
+    <p class="lead reveal">
+      Desarrolladora Full Stack orientada al frontend. Construyo soluciones web
+      funcionales y escalables, con código limpio y foco en la experiencia del usuario.
+    </p>
+    <div class="hero-actions reveal">
+      <a href="#proyectos" class="btn btn-primary">Ver proyectos →</a>
+      <a href="mailto:milucanete5@gmail.com" class="btn btn-ghost">Contactame</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SOBRE MÍ ===================== -->
+<section id="sobre-mi">
+  <div class="wrap">
+    <span class="eyebrow reveal">01 / Sobre mí</span>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          Soy <strong>Tec. en Programación</strong> y desarrolladora Full Stack orientada
+          al frontend, con sólida formación en JavaScript y gestión de bases de datos
+          relacionales y no relacionales. Durante el último año trabajé de forma
+          independiente, diseñando e implementando soluciones web funcionales y escalables,
+          optimizando procesos de negocio e integrando pasarelas de pago.
+        </p>
+        <p>
+          Me apasiona <strong>resolver problemas lógicos con código limpio</strong>. Trabajo
+          con gran autonomía y orientación al producto, y busco dar mi próximo paso
+          profesional en un equipo de desarrollo dinámico.
+        </p>
+      </div>
+      <div class="facts reveal">
+        <div class="fact"><span class="k">ubicación</span><span class="v">San Rafael, Mendoza</span></div>
+        <div class="fact"><span class="k">rol</span><span class="v">Full Stack · Frontend</span></div>
+        <div class="fact"><span class="k">formación</span><span class="v">Tec. Programación (UTN)</span></div>
+        <div class="fact"><span class="k">estado</span><span class="v">Abierta a propuestas</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== HABILIDADES ===================== -->
+<section id="skills">
+  <div class="wrap">
+    <span class="eyebrow reveal">02 / Stack</span>
+    <h2 class="section-title reveal">Herramientas con las que trabajo</h2>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <h3>Lenguajes</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">Java</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">HTML5</span>
+          <span class="tag">CSS3</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <h3>Frameworks & Backend</h3>
+        <div class="tags">
+          <span class="tag">Node.js</span>
+          <span class="tag">Django</span>
+          <span class="tag">Flask</span>
+          <span class="tag">Bootstrap</span>
+          <span class="tag">APIs REST</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <h3>Datos & Herramientas</h3>
+        <div class="tags">
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">MySQL</span>
+          <span class="tag">SQLite</span>
+          <span class="tag">Firebase</span>
+          <span class="tag">Git</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">Linux</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROYECTOS ===================== -->
+<section id="proyectos">
+  <div class="wrap">
+    <span class="eyebrow reveal">03 / Proyectos</span>
+    <h2 class="section-title reveal">Algunas cosas que construí</h2>
+    <div class="projects">
+
+      <article class="project reveal">
+        <div class="num">01</div>
+        <div>
+          <h3>Mili Studio — E-commerce & Turnos</h3>
+          <p>
+            Aplicación web completa para la gestión integral de un estudio de estética
+            (nails, pestañas y cejas). Incluye un sistema de reservas en tiempo real y una
+            pasarela de pagos automatizada integrada con la API de Mercado Pago, con diseño
+            responsive priorizando la experiencia móvil.
+          </p>
+          <div class="stack">
+            <span>JavaScript</span><span>HTML5</span><span>CSS3</span><span>Mercado Pago API</span><span>Git</span>
+          </div>
+        </div>
+        <div class="project-links">
+          
+          <a href="#" target="_blank" rel="noopener">Demo ↗</a>
+          
+          <a href="https://github.com/Mili-Canete/E-commerce" target="_blank" rel="noopener">Código ↗</a>
+        </div>
+      </article>
+
+      <article class="project reveal">
+        <div class="num">02</div>
+        <div>
+          <h3>Web Encuentro de Estancieras</h3>
+          <p>
+            Sitio web dinámico e interactivo para la difusión, gestión y soporte
+            técnico-operativo de un evento automotor masivo. Integra los mapas de Google
+            para trazar rutas y puntos clave del encuentro, con una interfaz fluida
+            construida sobre lógica optimizada en JavaScript.
+          </p>
+          <div class="stack">
+            <span>JavaScript</span><span>Google Maps API</span><span>Firebase</span><span>Git</span><span>GitHub</span>
+          </div>
+        </div>
+        <div class="project-links">
+          <a href="https://web-encuentro-de-estancieras.vercel.app/" target="_blank" rel="noopener">Demo ↗</a>
+          <a href="https://github.com/Mili-Canete/Web-encuentro-de-estancieras" target="_blank" rel="noopener">Código ↗</a>
+        </div>
+      </article>
+
+      <!-- ✏️ Para sumar otro proyecto, copiá un bloque <article class="project"> y cambiá el número y el contenido -->
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EXPERIENCIA Y FORMACIÓN ===================== -->
+<section id="experiencia">
+  <div class="wrap">
+    <span class="eyebrow reveal">04 / Experiencia y formación</span>
+    <h2 class="section-title reveal">Mi recorrido</h2>
+
+    <div class="exp-item reveal">
+      <div class="exp-head">
+        <h3>Desarrolladora Full Stack — Freelance</h3>
+        <span class="when">Mayo 2025 — Presente</span>
+      </div>
+      <ul>
+        <li>Diseño y desarrollo de aplicaciones web e-commerce de extremo a extremo (Full Stack), digitalizando operaciones de negocios locales y automatizando la gestión de turnos y ventas.</li>
+        <li>Modelado e implementación de bases de datos relacionales con SQL, cuidando la integridad de los datos y optimizando los tiempos de consulta.</li>
+        <li>Integración de la API de Mercado Pago para el procesamiento de cobros de forma automatizada y segura.</li>
+        <li>Gestión autónoma del ciclo de vida del software: relevamiento de requerimientos con el cliente, diseño de la arquitectura, despliegue y testing.</li>
+      </ul>
+    </div>
+
+    <div class="edu">
+      <div class="exp-item reveal">
+        <div class="exp-head">
+          <h3>Tecnicatura Universitaria en Programación</h3>
+          <span class="when">En curso</span>
+        </div>
+        <p class="role">UTN — Universidad Tecnológica Nacional</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACTO ===================== -->
+<section id="contacto" class="contact">
+  <div class="wrap">
+    <span class="eyebrow reveal" style="justify-content:center;">05 / Contacto</span>
+    <h2 class="section-title reveal">¿Trabajamos juntas?</h2>
+    <p class="reveal">
+      Estoy abierta a propuestas laborales y colaboraciones. Escribime y te respondo.
+    </p>
+    <a href="mailto:milucanete5@gmail.com" class="contact-email reveal">milucanete5@gmail.com</a>
+    <div class="socials reveal">
+      <a href="https://github.com/Mili-Canete" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/milagros-ca%C3%B1ete-5896263a0/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://drive.google.com/file/d/11r1bzJLp_FyNXrftFd7-ZUMi8D2tRObh/view?usp=sharing" target="_blank" rel="noopener">CV (PDF) ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>© <span id="year"></span> Milagros Cañete</span>
+    <span>Hecho con HTML, CSS y JS</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* Modo claro / oscuro */
+  const root = document.documentElement;
+  const toggle = document.getElementById('themeToggle');
+  const saved = localStorage.getItem('theme');
+  if (saved) root.setAttribute('data-theme', saved);
+  else if (window.matchMedia('(prefers-color-scheme: dark)').matches) root.setAttribute('data-theme', 'dark');
+  toggle.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+
+  /* Menú mobile */
+  const menuBtn = document.getElementById('menuBtn');
+  const navLinks = document.getElementById('navLinks');
+  menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  /* Aparición al hacer scroll */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
